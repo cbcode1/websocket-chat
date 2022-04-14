@@ -1,0 +1,108 @@
+* {
+	margin: 0;
+	font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+:root {
+	--alpha: #211f18;
+	--beta: #eed8d4;
+	--gamma: #ee8d59;
+}
+
+body {
+	background-color: var(--alpha);
+}
+
+button {
+	font-size: 1.5em;
+	border: none;
+	cursor: pointer;
+	background: none;
+}
+
+header {
+	text-align: center;
+	background-color: var(--beta);
+	color: var(--alpha);
+	display: flex;
+	align-items: center;
+	position: fixed;
+	height: 72px;
+	inset: 0 0 auto 0;
+	padding: 0 1em;
+
+	button {
+		padding: 0.5em;
+		margin: -0.5em;
+		margin-left: auto;
+	}
+}
+
+ul {
+	position: fixed;
+	display: flex;
+	list-style-type: none;
+	overflow: auto;
+}
+
+ul#nachrichten {
+	inset: 72px 0 90px 0;
+	padding: 2em;
+	flex-direction: column;
+	gap: 21px;
+	z-index: -1;
+
+	li {
+		color: white;
+		position: relative;
+
+		&:not(:last-child)::after {
+			content: "";
+			position: absolute;
+			background-color: #eed8d4;
+			height: 1px;
+			width: 100%;
+			inset: auto 0 -10px 0;
+		}
+	}
+}
+
+ul#nutzer {
+	inset: auto 0 58px 0;
+	height: 32px;
+	padding: 6px;
+	gap: 6px;
+
+	li {
+		height: 100%;
+		background-color: var(--beta);
+		padding: 0 8px;
+		border-radius: 4px;
+		display: grid;
+		place-items: center;
+	}
+}
+
+form {
+	position: fixed;
+	inset: auto 0 0 0;
+	display: flex;
+	background-color: white;
+	height: 58px;
+
+	input {
+		flex-grow: 1;
+		border: none;
+		padding: 0 1em;
+		font-size: 1em;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	button {
+		background-color: var(--gamma);
+		padding: 0 0.5em;
+	}
+}

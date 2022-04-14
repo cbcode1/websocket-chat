@@ -1,0 +1,31 @@
+{
+	"dependencies": {
+		"express": "^4.17.3",
+		"socket.io": "^4.4.1",
+		"unique-names-generator": "^4.7.1"
+	},
+	"name": "websocket-chat",
+	"version": "1.0.0",
+	"description": "A simple chat app using Node.js and Socket.IO",
+	"main": "app.js",
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/cbcode1/websocket-chat.git"
+	},
+	"keywords": [
+		"websocket",
+		"chat",
+		"nodejs",
+		"socketio"
+	],
+	"author": "cbcode1",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/cbcode1/websocket-chat/issues"
+	},
+	"homepage": "https://github.com/cbcode1/websocket-chat#readme"
+}

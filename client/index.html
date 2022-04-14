@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CB.chat</title>
+		<link rel="stylesheet" href="style.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<header>
+			<h1>Chat</h1>
+			<button id="benachrichtigungen">🔔</button>
+		</header>
+
+		<ul id="nachrichten"></ul>
+		<ul id="nutzer"></ul>
+
+		<form id="form" autocomplete="off">
+			<input title="Text" id="text" placeholder="Nachricht" />
+			<button type="submit">➤</button>
+		</form>
+
+		<script>
+			if ("serviceWorker" in navigator) {
+				navigator.serviceWorker.register("/sw.js").then(function () {
+					console.log("Service Worker Registered");
+				});
+			}
+		</script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io();
+
+			document.getElementById("form").addEventListener("submit", (e) => {
+				e.preventDefault();
+				msg = document.getElementById("text").value;
+				if (msg === "") return;
+				socket.emit("nachricht", msg);
+				document.getElementById("text").value = "";
+			});
+
+			socket.on("verbindung", (user) => {
+				item = document.createElement("li");
+				item.id = user.name;
+				item.textContent = user.name;
+				item.style.backgroundColor = "#" + user.color;
+
+				document.getElementById("nutzer").appendChild(item);
+			});
+
+			socket.on("trennung", (user) => {
+				document
+					.getElementById("nutzer")
+					.removeChild(document.getElementById(user.name));
+			});
+
+			socket.on("nachricht", (msg) => {
+				window.navigator.vibrate(50);
+
+				li = document.createElement("li");
+				author = document.createElement("b");
+				author.textContent = msg.author.name;
+				author.style.color = "#" + msg.author.color;
+				message = document.createElement("p");
+				message.textContent = msg.message;
+				li.appendChild(author);
+				li.appendChild(message);
+
+				document.getElementById("nachrichten").appendChild(li);
+			});
+
+			// Benachrichtigungen
+			document
+				.getElementById("benachrichtigungen")
+				.addEventListener("click", () => {
+					if (!("Notification" in window)) {
+						console.log(
+							"Es werden keine Benachrichtigungen unterstützt."
+						);
+					} else {
+						if (Notification.permission == "granted") {
+							navigator.serviceWorker
+								.getRegistration()
+								.then((reg) => {
+									reg.showNotification(
+										"Okay, du bekommst bereits Benachrichtigungen.",
+										{
+											body: "Danke",
+										}
+									);
+								});
+						} else {
+							Notification.requestPermission();
+						}
+					}
+				});
+		</script>
+	</body>
+</html>
