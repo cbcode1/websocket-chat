@@ -16,7 +16,6 @@
 	<body>
 		<header>
 			<h1>Chat</h1>
-			<button id="benachrichtigungen">🔔</button>
 		</header>
 
 		<ul id="nachrichten"></ul>
@@ -27,13 +26,6 @@
 			<button type="submit">➤</button>
 		</form>
 
-		<script>
-			if ("serviceWorker" in navigator) {
-				navigator.serviceWorker.register("/sw.js").then(function () {
-					console.log("Service Worker Registered");
-				});
-			}
-		</script>
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			var socket = io();
@@ -75,32 +67,6 @@
 
 				document.getElementById("nachrichten").appendChild(li);
 			});
-
-			// Benachrichtigungen
-			document
-				.getElementById("benachrichtigungen")
-				.addEventListener("click", () => {
-					if (!("Notification" in window)) {
-						console.log(
-							"Es werden keine Benachrichtigungen unterstützt."
-						);
-					} else {
-						if (Notification.permission == "granted") {
-							navigator.serviceWorker
-								.getRegistration()
-								.then((reg) => {
-									reg.showNotification(
-										"Okay, du bekommst bereits Benachrichtigungen.",
-										{
-											body: "Danke",
-										}
-									);
-								});
-						} else {
-							Notification.requestPermission();
-						}
-					}
-				});
 		</script>
 	</body>
 </html>
